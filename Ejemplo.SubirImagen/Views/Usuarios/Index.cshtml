@@ -1,0 +1,59 @@
+﻿@model List<WebApplication1.Dominio.Entidades.Usuario>
+
+@if (ViewBag.NuevoUsuarioCreado)
+{
+    <h2 class="alert-success well">Excelente! Usuario creado.</h2>
+}
+
+@if (Model.Count == 0)
+{
+    <h3 class="alert-info well">
+        No hay usuarios registrados.
+        <a href="/Usuarios/Crear">Crealo!</a>
+    </h3>
+}
+else
+{
+    <h3>
+        <a href="/Usuarios/Crear">Crea nuevos usuarios.</a>
+    </h3>
+
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Foto</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var usuario in Model)
+                {
+                    <tr>
+                        <td>
+                            @usuario.Nombre
+                        </td>
+                        <td>
+                            @usuario.Apellido
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(usuario.FotoPerfil))
+                            {
+                                <a class="pop" href="@usuario.FotoPerfil" target="_blank"><img class="img-thumbnail input-sm" src="@usuario.FotoPerfil" alt="@usuario.Nombre @usuario.Apellido" /></a>
+                            }
+                        </td>
+                        <td>
+                            <a href="/Usuarios/Editar/@usuario.IdUsuario">Editar</a> | 
+                            <a href="/Usuarios/Eliminar/@usuario.IdUsuario">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!--MODAL IMAGEN-->
+    { Html.RenderPartial("_ModalImagen");}
+    <!--MODAL IMAGEN-->
+}
